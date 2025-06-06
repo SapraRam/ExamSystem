@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+{% block title %}Available Tests{% endblock %}
+
+{% block head %}
+<link rel="stylesheet" href="{{ url_for('static', filename='home-style.css') }}">
+{% endblock %}
+
+{% block content %}
+<div class="main-content">
+  <h1 class="welcome-title">Available Tests</h1>
+  <div class="actions">
+    {% for test in tests %}
+    <div class="card">
+      <h2 class="card-title">{{ test.testName }} - by {{ test.testCreator | capitalize }}</h2>
+      <a href="{{ url_for('showQuestions', tid = test.testId)}}" class="btn-primary">Start</a>
+    </div>
+    {% endfor %}
+  </div>
+</div>
+{% endblock %}

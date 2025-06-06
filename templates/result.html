@@ -1,0 +1,51 @@
+{% extends "base.html" %}
+{% block title %}Quiz Results{% endblock %} {% block head%}<link
+  rel="stylesheet"
+  href="{{ url_for('static', filename='result-style.css') }}"
+/>
+{% endblock %} {% block content %}
+<div class="container">
+  <div class="card">
+    <div class="score-section">
+      <p class="score-text">
+        Your Score: <strong>{{ score }} / {{ results | length }}</strong>
+      </p>
+      <p class="score-percentage">
+        ({{ (score / (results|length) * 100)|round(1) }}%)
+      </p>
+    </div>
+    <div class="results-section">
+      {% for qid, result in results.items() %}
+      <div
+        class="result-item {% if result.is_correct %}correct{% else %}incorrect{% endif %}"
+      >
+        <p class="result-question">
+          <strong>Q{{ loop.index0 + 1 }}:</strong>
+          {{ result.question }}
+        </p>
+        <p class="result-selected">
+          <strong>Your Answer:</strong>
+          {% if result.selected %} {{ result.selected|join(', ') }} {% else %}
+          None {% endif %}
+        </p>
+        <p class="result-correct">
+          <strong>Correct Answer:</strong>
+          {{ result.correct|join(', ') }}
+        </p>
+        <p class="result-status">
+          {{ 'Correct' if result.is_correct else 'Incorrect' }}
+        </p>
+      </div>
+      {% endfor %}
+    </div>
+    <div class="form-actions">
+      <a href="{{ url_for('showQuestions', tid = tid)}}" class="btn btn-primary"
+        >Retake Quiz</a
+      >
+      <a href="{{ url_for('test')}}" class="btn btn-primary"
+        >Tests</a
+      >
+    </div>
+  </div>
+</div>
+{% endblock %}

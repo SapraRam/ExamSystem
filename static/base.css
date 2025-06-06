@@ -1,0 +1,321 @@
+/* Theme variables */
+:root {
+  --bg-color: #e6f3fa;
+  --text-color: #1e293b;
+  --navbar-bg: #1976d2;
+  --nav-text: #ffffff;
+  --card-bg: #ffffff;
+  --btn-bg: #ffffff;
+  --btn-text: #1976d2;
+  --link-hover: rgba(25, 118, 210, 0.1);
+  --shadow: rgba(0, 0, 0, 0.08);
+  --border: #e2e8f0;
+  --theme-btn-bg: rgba(25, 118, 210, 0.1);
+  --theme-btn-hover: #e3f2fd;
+  --btn-hover-text: #0d47a1;
+}
+
+[data-theme="dark"] {
+  --bg-color: #0f172a;
+  --text-color: #e2e8f0;
+  --navbar-bg: #1e293b;
+  --nav-text: #e2e8f0;
+  --card-bg: #2d3748;
+  --btn-bg: #374151;
+  --btn-text: #4fc3f7;
+  --link-hover: rgba(79, 195, 247, 0.2);
+  --shadow: rgba(0, 0, 0, 0.3);
+  --border: #4b5563;
+  --theme-btn-bg: rgba(79, 195, 247, 0.15);
+  --theme-btn-hover: rgba(79, 195, 247, 0.25);
+  --btn-hover-text: #1ab5fd;
+}
+
+/* Reset and body */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: "Roboto", sans-serif;
+  background: linear-gradient(135deg, var(--bg-color) 0%, #f8fafc 100%);
+  color: var(--text-color);
+  transition: background 0.3s ease, color 0.3s ease;
+  padding-top: 70px; /* Space for fixed navbar */
+  min-height: 100vh;
+}
+
+[data-theme="dark"] body {
+  background: linear-gradient(135deg, #1e293b 0%, var(--bg-color) 100%);
+}
+
+/* Navbar styles */
+.navbar {
+  background-color: var(--navbar-bg);
+  box-shadow: 0 2px 10px var(--shadow);
+  padding: 0.8rem 2rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  transition: background-color 0.3s ease, box-shadow 0.3s ease;
+  width: 100%;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 1000;
+}
+
+.brand {
+  color: var(--nav-text);
+  font-size: 1.5rem;
+  font-weight: 500;
+  text-decoration: none;
+  transition: color 0.3s ease;
+}
+
+.nav-links {
+  display: flex;
+  gap: 1.5rem;
+  align-items: center;
+}
+
+.nav-link {
+  color: var(--nav-text);
+  text-decoration: none;
+  font-weight: 500;
+  padding: 0.5rem 0.8rem;
+  border-radius: 4px;
+  transition: background-color 0.3s, color 0.3s;
+}
+
+.nav-link:hover,
+.nav-link.active {
+  background-color: var(--link-hover);
+}
+
+/* Auth buttons */
+.auth-buttons {
+  margin-left: 1rem;
+}
+
+.btn-auth {
+  background-color: var(--btn-bg);
+  color: var(--btn-text);
+  border: none;
+  padding: 0.5rem 1rem;
+  border-radius: 4px;
+  cursor: pointer;
+  font-weight: 500;
+  text-decoration: none;
+  display: inline-block;
+  transition: background-color 0.3s, color 0.3s, transform 0.2s;
+}
+
+.btn-auth:hover {
+  background-color: var(--theme-btn-hover);
+  color: var(--btn-hover-text);
+  transform: translateY(-2px);
+}
+
+/* Theme toggle button */
+.theme-toggle {
+  background-color: var(--theme-btn-bg);
+  border: none;
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  margin-left: 1rem;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+  position: relative;
+}
+
+.theme-toggle:hover {
+  background-color: var(--theme-btn-hover);
+  transform: scale(1.1);
+}
+
+.theme-toggle:active {
+  transform: scale(0.95);
+}
+
+.theme-icon {
+  color: var(--nav-text);
+  font-size: 1.1rem;
+  transition: color 0.3s ease, opacity 0.3s ease;
+  position: absolute;
+}
+
+/* Show/hide icons based on theme */
+[data-theme="light"] .light-icon {
+  display: none;
+}
+
+[data-theme="light"] .dark-icon {
+  display: block;
+}
+
+[data-theme="dark"] .light-icon {
+  display: block;
+}
+
+[data-theme="dark"] .dark-icon {
+  display: none;
+}
+
+/* Utility */
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+/* Card support */
+.card {
+  background-color: var(--card-bg);
+  border-radius: 10px;
+  box-shadow: 0 4px 10px var(--shadow);
+  padding: 2rem;
+  transition: background-color 0.3s ease, box-shadow 0.3s ease;
+  border: 1px solid var(--border);
+}
+
+.card:hover {
+  box-shadow: 0 6px 14px var(--shadow);
+}
+
+.card-title {
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: var(--text-color);
+  margin-bottom: 1rem;
+  transition: color 0.3s ease;
+}
+
+.btn-primary,
+.btn-secondary {
+  display: inline-block;
+  padding: 0.6rem 1.4rem;
+  border-radius: 6px;
+  font-weight: 500;
+  text-align: center;
+  cursor: pointer;
+  transition: background-color 0.3s ease, color 0.3s ease, transform 0.2s ease;
+  text-decoration: none;
+  border: none;
+}
+
+.btn-primary {
+  background-color: var(--btn-text);
+  color: #ffffff;
+}
+
+.btn-primary:hover {
+  background-color: #1565c0;
+  transform: translateY(-2px);
+}
+
+.btn-secondary {
+  background-color: transparent;
+  color: var(--btn-text);
+  border: 2px solid var(--btn-text);
+}
+
+.btn-secondary:hover {
+  background-color: var(--theme-btn-bg);
+  color: var(--btn-hover-text);
+  transform: translateY(-2px);
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+  .navbar {
+    padding: 0.5rem 1rem;
+    flex-wrap: wrap;
+  }
+
+  .nav-links {
+    gap: 1rem;
+    flex-wrap: wrap;
+  }
+
+  .brand {
+    font-size: 1.3rem;
+  }
+
+  .theme-toggle {
+    width: 35px;
+    height: 35px;
+    margin-left: 0.5rem;
+  }
+
+  .theme-icon {
+    font-size: 1rem;
+  }
+}
+
+.nav-user {
+  font-weight: 500;
+  color: var(--nav-text);
+  margin-right: 1rem;
+  font-size: 1rem;
+}
+
+.dropdown {
+  position: relative;
+  display: inline-block;
+}
+
+.dropdown-toggle {
+  background-color: var(--btn-bg);
+  color: var(--btn-text);
+  border: none;
+  padding: 0.5rem 1rem;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  transition: background-color 0.3s ease;
+}
+
+.dropdown-toggle:hover {
+  background-color: var(--theme-btn-hover);
+  color: var(--btn-hover-text);
+}
+
+.dropdown-menu {
+  display: none;
+  position: absolute;
+  right: 0;
+  background-color: var(--card-bg);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  box-shadow: 0 4px 8px var(--shadow);
+  padding: 0.5rem 0;
+  margin-top: 0.5rem;
+  z-index: 100;
+  min-width: 140px;
+  text-align: left;
+}
+
+.dropdown-menu a {
+  display: block;
+  padding: 0.5rem 1rem;
+  color: var(--text-color);
+  text-decoration: none;
+  transition: background-color 0.3s ease;
+}
+
+.dropdown-menu a:hover {
+  background-color: var(--link-hover);
+}
+
+.dropdown.show .dropdown-menu {
+  display: block;
+}

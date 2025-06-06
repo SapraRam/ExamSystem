@@ -1,0 +1,69 @@
+{% extends "base.html" %} {% block title %}Quiz{% endblock %} {% block head %}
+<link
+  rel="stylesheet"
+  href="{{ url_for('static', filename='question-style.css') }}"
+/>
+{% endblock %} 
+{% block content %}
+{% if questions %}
+<div class="container">
+  <div class="card">
+    <form action="{{ url_for('showQuestions', tid = tid) }}" method="POST" class="form">
+      {% for question in questions %}
+      <div class="question">
+        <p>
+          <strong>Q{{ loop.index0 + 1 }}:</strong> {{ question.question }}
+        </p>
+        <label class="option-label">
+          <input
+            type="checkbox"
+            id="option-{{ question.qid }}-1"
+            name="option-{{ question.qid }}"
+            value="1"
+          />
+          <span>{{ question.option1 }}</span>
+        </label>
+        <label class="option-label">
+          <input
+            type="checkbox"
+            id="option-{{ question.qid }}-2"
+            name="option-{{ question.qid }}"
+            value="2"
+          />
+          <span>{{ question.option2 }}</span>
+        </label>
+        <label class="option-label">
+          <input
+            type="checkbox"
+            id="option-{{ question.qid }}-3"
+            name="option-{{ question.qid }}"
+            value="3"
+          />
+          <span>{{ question.option3 }}</span>
+        </label>
+        <label class="option-label">
+          <input
+            type="checkbox"
+            id="option-{{ question.qid }}-4"
+            name="option-{{ question.qid }}"
+            value="4"
+          />
+          <span>{{ question.option4 }}</span>
+        </label>
+      </div>
+      {% endfor %}
+      <div class="form-actions">
+        <button type="submit" class="btn btn-primary">Submit Answers</button>
+        <button type="reset" class="btn btn-secondary">Clear</button>
+      </div>
+    </form>
+  </div>
+</div>
+{%else %}
+<div class="container">
+  <div class="card">
+    <h2>Coming Soon ....</h2>
+  </div>
+</div>
+{% endif %}
+{% endblock %}

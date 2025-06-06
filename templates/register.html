@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Register</title>
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='register-style.css') }}"
+    />
+  </head>
+  <body>
+    <div class="container">
+      <div class="card">
+        <h2 class="card-title">Create Account</h2>
+        <form action="{{ url_for('register') }}" method="POST" class="form">
+          <div class="form-group">
+            <label for="username">Username:</label>
+            <input
+              type="text"
+              id="username"
+              name="username"
+              required
+              class="form-input"
+              autocomplete="off"
+              autofocus
+            />
+            {% if usernameError %}
+            <p class="error-text">{{ usernameError }}</p>
+            {% endif %}
+          </div>
+          <div class="form-group">
+            <label for="password">Password:</label>
+            <input
+              type="password"
+              id="password"
+              name="password"
+              autocomplete="off"
+              required
+              class="form-input"
+            />
+            <div class="password-strength">
+              <div class="strength-meter">
+                <div class="strength-bar" id="strengthBar"></div>
+              </div>
+              <div class="strength-text" id="strengthText">
+                Enter a password
+              </div>
+            </div>
+          </div>
+          <button type="submit" class="btn btn-primary" id="registerBtn">
+            Register
+          </button>
+        </form>
+        <div class="login-link">
+          <p>
+            Already have an account?
+            <a href="{{ url_for('login') }}">Login here</a>
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      const passwordInput = document.getElementById("password");
+      const confirmPasswordInput = document.getElementById("confirm_password");
+      const strengthBar = document.getElementById("strengthBar");
+      const strengthText = document.getElementById("strengthText");
+      const passwordMatch = document.getElementById("passwordMatch");
+      const registerBtn = document.getElementById("registerBtn");
+
+      function checkPasswordStrength(password) {
+        let strength = 0;
+        let feedback = [];
+
+        if (password.length >= 8) {
+          strength += 25;
+        } else {
+          feedback.push("At least 8 characters");
+        }
+
+        if (/[a-z]/.test(password)) {
+          strength += 25;
+        } else {
+          feedback.push("Lowercase letter");
+        }
+
+        if (/[A-Z]/.test(password)) {
+          strength += 25;
+        } else {
+          feedback.push("Uppercase letter");
+        }
+
+        if (/[0-9]/.test(password)) {
+          strength += 25;
+        } else {
+          feedback.push("Number");
+        }
+
+        return { strength, feedback };
+      }
+
+      function updateStrengthMeter(password) {
+        const { strength, feedback } = checkPasswordStrength(password);
+
+        strengthBar.style.width = strength + "%";
+
+        if (strength === 0) {
+          strengthBar.className = "strength-bar";
+          strengthText.textContent = "Enter a password";
+        } else if (strength <= 25) {
+          strengthBar.className = "strength-bar weak";
+          strengthText.textContent = "Weak - Missing: " + feedback.join(", ");
+        } else if (strength <= 50) {
+          strengthBar.className = "strength-bar fair";
+          strengthText.textContent = "Fair - Missing: " + feedback.join(", ");
+        } else if (strength <= 75) {
+          strengthBar.className = "strength-bar good";
+          strengthText.textContent = "Good - Missing: " + feedback.join(", ");
+        } else {
+          strengthBar.className = "strength-bar strong";
+          strengthText.textContent = "Strong password!";
+        }
+      }
+
+      function checkPasswordMatch() {
+        const password = passwordInput.value;
+        const confirmPassword = confirmPasswordInput.value;
+
+        if (confirmPassword === "") {
+          passwordMatch.textContent = "";
+          passwordMatch.className = "password-match";
+        } else if (password === confirmPassword) {
+          passwordMatch.textContent = "Passwords match!";
+          passwordMatch.className = "password-match match";
+        } else {
+          passwordMatch.textContent = "Passwords do not match";
+          passwordMatch.className = "password-match no-match";
+        }
+      }
+
+      passwordInput.addEventListener("input", function () {
+        updateStrengthMeter(this.value);
+      });
+
+      confirmPasswordInput.addEventListener("input", checkPasswordMatch);
+      passwordInput.addEventListener("input", checkPasswordMatch);
+    </script>
+  </body>
+</html>

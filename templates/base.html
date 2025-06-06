@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Exam System - {% block title %}{% endblock %}</title>
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='base.css') }}"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"
+    />
+    {% block head %}{% endblock %}
+  </head>
+  <body>
+    <nav class="navbar">
+      <a href="{{ url_for('home') }}" class="brand">Exam System</a>
+      <div class="nav-links">
+        {% if session.get('username') %}
+        <div class="dropdown" id="userDropdown">
+          <button
+            class="dropdown-toggle"
+            onclick="toggleDropdown('userDropdown')"
+          >
+            👤 {{ session['username'] }} <i class="fas fa-caret-down"></i>
+          </button>
+          <div class="dropdown-menu">
+            <a href="{{ url_for('logout') }}">Logout</a>
+          </div>
+        </div>
+        {% else %}
+        <div class="dropdown" id="accountDropdown">
+          <button
+            class="dropdown-toggle"
+            onclick="toggleDropdown('accountDropdown')"
+          >
+            Account <i class="fas fa-caret-down"></i>
+          </button>
+          <div class="dropdown-menu">
+            <a href="{{ url_for('login') }}">Login</a>
+            <a href="{{ url_for('register') }}">Register</a>
+          </div>
+        </div>
+        {% endif %}
+        <button class="theme-toggle" title="Toggle Theme">
+          <i class="fas fa-sun theme-icon light-icon"></i>
+          <i class="fas fa-moon theme-icon dark-icon"></i>
+        </button>
+      </div>
+    </nav>
+    {% block content %}{% endblock %}
+    <script>
+      // Theme toggle functionality with debounce
+      document.addEventListener("DOMContentLoaded", () => {
+        const themeToggle = document.querySelector(".theme-toggle");
+        const currentTheme = localStorage.getItem("theme") || "light";
+        document.documentElement.setAttribute("data-theme", currentTheme);
+
+        let isToggling = false;
+        themeToggle.addEventListener("click", () => {
+          if (isToggling) return;
+          isToggling = true;
+          setTimeout(() => {
+            const newTheme =
+              document.documentElement.getAttribute("data-theme") === "light"
+                ? "dark"
+                : "light";
+            document.documentElement.setAttribute("data-theme", newTheme);
+            localStorage.setItem("theme", newTheme);
+            isToggling = false;
+          }, 200); // 200ms debounce
+        });
+
+        // 👇 Add this inside the same DOMContentLoaded block
+        document.addEventListener("click", function (event) {
+          const toggleBtn = event.target.closest(".dropdown-toggle");
+          const dropdowns = document.querySelectorAll(".dropdown");
+          dropdowns.forEach((dropdown) => {
+            if (!dropdown.contains(event.target)) {
+              dropdown.classList.remove("show");
+            }
+          });
+          if (toggleBtn) {
+            const parent = toggleBtn.closest(".dropdown");
+            parent.classList.toggle("show");
+          }
+        });
+      });
+    </script>
+  </body>
+</html>
